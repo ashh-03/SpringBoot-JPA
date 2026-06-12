@@ -1,33 +1,77 @@
 package com.jpaProject.projectJpa.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
+import lombok.*;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
+@Table(name = "products")
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+//@Builder
 public class Product {
 
     @Id
-
     @GeneratedValue(
             strategy = GenerationType.IDENTITY
     )
     private Long id;
 
+    @NotBlank(
+            message = "Product name cannot be blank"
+    )
+    @Size(
+            min = 3,
+            max = 100
+    )
     private String name;
 
+    @Size(
+            max = 500
+    )
     private String description;
 
-    private Double price;
+    @NotNull
+    @Positive(
+            message = "Price must be greater than zero"
+    )
+    private BigDecimal price;
 
-    private Integer stock;
+    @NotNull
+    @Min(
+            value = 0,
+            message = "Stock cannot be negative"
+    )
+    private Integer stockQuantity;
+
+
+    @ManyToOne(
+            fetch = FetchType.LAZY
+    )
+
+    @JoinColumn(
+            name = "category_id"
+    )
+
+    private Category category;
+
+
+    @OneToMany(
+            mappedBy = "product",
+
+            cascade = CascadeType.ALL,
+
+            orphanRemoval = true
+    )
+
+    private List<Review>
+            reviews =
+            new ArrayList<>();
 }
