@@ -1,0 +1,10 @@
+.idea/
+**/.idea/
+
+**/target/
+**/build/
+
+*.log
+logs/
+
+**/application-secret.properties

@@ -1,0 +1,19 @@
+
+//-------------------------------validation structure----------------------
+
+com.example.ecommerce
+
+├── controller
+├── service
+├── repository
+├── entity
+
+├── dto
+
+├── validation
+│     ├── groups
+│     ├── payload
+│     ├── annotation
+│     └── validator
+
+├── exception
