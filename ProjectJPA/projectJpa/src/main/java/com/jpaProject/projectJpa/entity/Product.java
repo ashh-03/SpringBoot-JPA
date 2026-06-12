@@ -9,6 +9,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+
+@NamedQuery(
+        name = "Product.findExpensiveProducts",
+
+        query = """
+                SELECT p
+                FROM Product p
+                WHERE p.price > :price
+                """
+)
+
+
 @Table(name = "products")
 
 @Getter
