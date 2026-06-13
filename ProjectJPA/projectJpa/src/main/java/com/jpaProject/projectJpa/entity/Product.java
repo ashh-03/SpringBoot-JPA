@@ -10,6 +10,8 @@ import java.util.List;
 
 @Entity
 
+
+//-----------------using named query
 @NamedQuery(
         name = "Product.findExpensiveProducts",
 
@@ -19,6 +21,17 @@ import java.util.List;
                 WHERE p.price > :price
                 """
 )
+
+//-----------------using named entity query
+
+@NamedEntityGraph(
+        name = "Product.withCategory",
+        attributeNodes = {
+                @NamedAttributeNode("category")
+        }
+)
+
+//------------------------------------------------------------
 
 
 @Table(name = "products")
