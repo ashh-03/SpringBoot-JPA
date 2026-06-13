@@ -104,6 +104,7 @@ public interface ProductRepository
             @Param("stock")
             Integer stock
     );
+                //----------------------//
 
 
     //--------------------------------------------------
