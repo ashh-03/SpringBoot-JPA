@@ -30,6 +30,52 @@ public interface ProductRepository
             BigDecimal price
     );
 
+    //----------------------Descending Order------------------------
+
+    //-----multiple sorting
+//    @Query("""
+//       SELECT p
+//       FROM Product p
+//       ORDER BY p.category.name ASC,
+//                p.price DESC
+//       """)
+
+    @Query("""
+       SELECT p
+       FROM Product p
+       ORDER BY p.price DESC
+       """)
+    List<Product> findAllOrderByPriceDesc();
+
+    //---------------------Using Between---------------------------
+
+    @Query("""
+       SELECT p
+       FROM Product p
+       WHERE p.price BETWEEN :minPrice
+                         AND :maxPrice
+       """)
+    List<Product> findProductsBetweenPrice(
+
+            @Param("minPrice")
+            BigDecimal minPrice,
+
+            @Param("maxPrice")
+            BigDecimal maxPrice
+    );
+
+    //---------------------Using IN ------------------------
+
+    @Query("""
+       SELECT p
+       FROM Product p
+       WHERE p.id IN :ids
+       """)
+    List<Product> findProductsByIds(
+
+            @Param("ids")
+            List<Long> ids
+    );
 
 
     //--------------------------------------------------
