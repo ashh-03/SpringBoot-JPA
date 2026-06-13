@@ -2,6 +2,8 @@ package com.jpaProject.projectJpa.repository;
 
 
 import com.jpaProject.projectJpa.entity.Product;
+import com.jpaProject.projectJpa.projection.dtoProjection.ProductCustomResponse;
+import com.jpaProject.projectJpa.projection.dtoProjection.ProductResponse;
 import com.jpaProject.projectJpa.projection.interfaceProjection.ProductSummary;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
@@ -104,7 +106,7 @@ public interface ProductRepository
             @Param("stock")
             Integer stock
     );
-                //----------------------//
+
 
 
     //--------------------------------------------------
@@ -117,5 +119,37 @@ public interface ProductRepository
        """)
     List<ProductSummary>
     findProductSummary();
+
+
+    //--------------------------------------------------
+    // DTO Projection
+    //--------------------------------------------------
+
+    @Query("""
+        SELECT new  com.jpaProject.projectJpa.projection.dtoProjection.ProductResponse(
+                p.name,
+                p.price
+        )
+        FROM Product p
+       """)
+    List<ProductResponse>
+    findProductDto();
+
+
+    //--------------------------------------------------
+    // DTO Projection + Custom Response
+    //--------------------------------------------------
+
+    @Query("""
+        SELECT new com.jpaProject.projectJpa.projection.dtoProjection.ProductCustomResponse(
+                p.name,
+                p.price
+                , p.stockQuantity
+        )
+        FROM Product p
+       """)
+    List<ProductCustomResponse>
+    findProductCustomResponseDto();
+
 
 }
