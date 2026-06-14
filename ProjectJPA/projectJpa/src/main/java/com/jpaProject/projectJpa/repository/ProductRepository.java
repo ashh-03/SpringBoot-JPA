@@ -8,14 +8,16 @@ import com.jpaProject.projectJpa.projection.dtoProjection.ProductCustomResponse;
 import com.jpaProject.projectJpa.projection.dtoProjection.ProductResponse;
 import com.jpaProject.projectJpa.projection.interfaceProjection.ProductSummary;
 import jakarta.transaction.Transactional;
+import org.hibernate.query.Page;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
 
+import java.awt.print.Pageable;
 import java.math.BigDecimal;
 import java.util.List;
 
 public interface ProductRepository
-        extends JpaRepository<Product, Long> {
+        extends JpaRepository<Product, Long> , JpaSpecificationExecutor<Product> {
 
     //--------------------------------------------------
     // JPQL
@@ -434,6 +436,11 @@ public interface ProductRepository
        """)
     List<ProductCustomResponse>
     findProductCustomResponseDto();
+
+
+    //--------------------------------------------------
+    // Pagination
+    //-------------------------------------------------
 
 
 }
