@@ -1,22 +1,28 @@
 package com.jpaProject.projectJpa.entity;
 
+import com.jpaProject.projectJpa.baseClassEntity.BaseEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "categories")
+// no need to write this we used @MappedSuperClass
+//@EntityListeners(
+//        AuditingEntityListener.class
+//)
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 //@Builder
-public class Category {
+public class Category extends BaseEntity {
 
     @Id
     @GeneratedValue(
@@ -39,6 +45,9 @@ public class Category {
             message = "Description cannot exceed 255 characters"
     )
     private String description;
+
+    @Version
+    private Long version;
 
 
     @OneToMany(

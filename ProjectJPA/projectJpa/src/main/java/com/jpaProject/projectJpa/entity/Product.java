@@ -1,8 +1,10 @@
 package com.jpaProject.projectJpa.entity;
 
+import com.jpaProject.projectJpa.baseClassEntity.BaseEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -35,13 +37,16 @@ import java.util.List;
 
 
 @Table(name = "products")
-
+// no need to write this we used @MappedSuperClass
+//@EntityListeners(
+//        AuditingEntityListener.class
+//)
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 //@Builder
-public class Product {
+public class Product extends BaseEntity {
 
     @Id
     @GeneratedValue(
@@ -86,6 +91,9 @@ public class Product {
     )
 
     private Category category;
+
+    @Version
+    private Long version;
 
 
     @OneToMany(

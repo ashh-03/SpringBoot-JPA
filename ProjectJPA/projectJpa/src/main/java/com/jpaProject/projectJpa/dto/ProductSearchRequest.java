@@ -21,5 +21,8 @@ public class ProductSearchRequest {
 
     private BigDecimal maxPrice;
 
+
+    //----this is wrapper classes so its getter method looks like this
+    //--------getInStock and setter : setInStock
     private Boolean inStock;
 }

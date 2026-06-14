@@ -2,19 +2,24 @@ package com.jpaProject.projectJpa.entity;
 
 
 
+import com.jpaProject.projectJpa.baseClassEntity.BaseEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
 @Table(name = "reviews")
-
+// no need to write this we used @MappedSuperClass
+//@EntityListeners(
+//        AuditingEntityListener.class
+//)
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 //@Builder
-public class Review {
+public class Review extends BaseEntity {
 
     @Id
     @GeneratedValue(
@@ -40,6 +45,9 @@ public class Review {
             max = 500
     )
     private String comment;
+
+    @Version
+    private Long version;
 
     @ManyToOne(
             fetch = FetchType.LAZY
