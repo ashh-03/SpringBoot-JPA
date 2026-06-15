@@ -7,6 +7,7 @@ import com.jpaProject.projectJpa.entity.Product;
 import com.jpaProject.projectJpa.projection.dtoProjection.ProductCustomResponse;
 import com.jpaProject.projectJpa.projection.dtoProjection.ProductResponse;
 import com.jpaProject.projectJpa.projection.interfaceProjection.ProductSummary;
+import jakarta.persistence.LockModeType;
 import jakarta.transaction.Transactional;
 import org.hibernate.query.Page;
 import org.springframework.data.jpa.repository.*;
@@ -15,6 +16,7 @@ import org.springframework.data.repository.query.Param;
 import java.awt.print.Pageable;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 public interface ProductRepository
         extends JpaRepository<Product, Long> , JpaSpecificationExecutor<Product> {
@@ -200,7 +202,7 @@ public interface ProductRepository
     int deleteProduct(
             @Param("id") Long id
     );
-    //--------bulk delete----
+//    //--------bulk delete----[bulk update method of performance tuning]
     @Modifying
     @Transactional
     @Query("""
@@ -441,6 +443,54 @@ public interface ProductRepository
     //--------------------------------------------------
     // Pagination
     //-------------------------------------------------
+
+
+
+
+    //--------------------------------------------------
+    // Locking Pessimistic Lock
+    //-------------------------------------------------
+
+    @Lock(
+            LockModeType.PESSIMISTIC_WRITE
+    )
+    @Query("""
+            SELECT p
+            FROM Product p
+            WHERE p.id = :id
+           """)
+    Optional<Product> findByIdForUpdate(
+            Long id
+    );
+
+
+    //--------------------------------------------------
+    // Bulk Updates
+    //-------------------------------------------------
+
+    @Modifying
+    @Transactional
+    @Query("""
+       UPDATE Product p
+       SET p.price =
+           p.price * 1.10
+       """)
+    int increasePrice();
+
+    @Modifying(
+            clearAutomatically = true
+    )
+
+    @Query("""
+       UPDATE Product p
+       SET p.price =
+           p.price * 0.90
+       WHERE p.category.name =
+             :category
+       """)
+    int applyDiscount(
+            String category
+    );
 
 
 }

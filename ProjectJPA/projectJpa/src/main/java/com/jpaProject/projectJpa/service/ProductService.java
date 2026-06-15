@@ -6,6 +6,8 @@ import com.jpaProject.projectJpa.dto.ProductSearchRequest;
 import com.jpaProject.projectJpa.entity.Product;
 import com.jpaProject.projectJpa.repository.ProductRepository;
 import com.jpaProject.projectJpa.specification.ProductSpecification;
+import jakarta.persistence.EntityManager;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,6 +22,7 @@ import org.springframework.stereotype.Service;
 public class ProductService {
 
     private final ProductRepository productRepository;
+    private final EntityManager entityManager;
 
     public Page<ProductResponseDto> searchProducts(
 
@@ -142,5 +145,58 @@ public class ProductService {
         return products.map(
                 ProductMapper::toDto
         );
+    }
+
+
+
+    @Transactional
+    public void updateStock(
+
+            Long productId,
+
+            int quantity
+
+    ) {
+
+
+        Product product =
+
+                productRepository
+                        .findByIdForUpdate(
+                                productId
+                        )
+                        .orElseThrow();
+
+        product.setStockQuantity(
+
+                product.getStockQuantity()
+                        - quantity
+        );
+    }
+
+    //------------------batch insert operation----------------
+
+    @Transactional
+    public void insertProducts() {
+
+        for(int i=0; i<10000; i++) {
+
+            Product p =
+                    new Product();
+
+            p.setName(
+                    "Product " + i
+            );
+
+            productRepository.save(p);
+
+            if(i % 50 == 0) {
+
+
+                entityManager.flush();
+
+                entityManager.clear();
+            }
+        }
     }
 }

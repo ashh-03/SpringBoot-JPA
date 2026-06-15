@@ -1,10 +1,13 @@
-package com.jpaProject.projectJpa.baseClassEntity;
+package com.jpaProject.projectJpa.baseEntity_AutditorAware;
 
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.SoftDelete;
+import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -16,6 +19,7 @@ import java.time.LocalDateTime;
 )
 @Getter
 @Setter
+@SoftDelete
 public abstract class BaseEntity {
 
     @CreatedDate
@@ -23,4 +27,10 @@ public abstract class BaseEntity {
 
     @LastModifiedDate
     private LocalDateTime updatedAt;
+
+    @CreatedBy
+    private String createdBy;
+
+    @LastModifiedBy
+    private String updatedBy;
 }

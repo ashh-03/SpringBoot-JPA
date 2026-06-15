@@ -1,16 +1,35 @@
 package com.jpaProject.projectJpa.entity;
 
-import com.jpaProject.projectJpa.baseClassEntity.BaseEntity;
+import com.jpaProject.projectJpa.baseEntity_AutditorAware.BaseEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.hibernate.annotations.SQLDelete;
+
+
+//import org.hibernate.annotations.Where;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+
+//----------soft delete-----------
+
+
+//---------this is a old hibernate way...better add annotation @SoftDelete in BaseEntity class
+//----------@SoftDelete do the same thing like we are doing here
+//@SQLDelete(
+//        sql =
+//                "UPDATE product " +
+//                        "SET deleted = true " +
+//                        "WHERE id = ?"
+//)
+//---this is deprecated in hibernate 6+ uses filter[act as a filter and edit query before execute]
+//@Where(
+//        clause = "deleted = false"
+//)
 
 
 //-----------------using named query
@@ -92,9 +111,14 @@ public class Product extends BaseEntity {
 
     private Category category;
 
+
+    //-------Locking Optimistic lock
     @Version
     private Long version;
 
+
+    //---------soft delete-------
+    private boolean deleted ;
 
     @OneToMany(
             mappedBy = "product",

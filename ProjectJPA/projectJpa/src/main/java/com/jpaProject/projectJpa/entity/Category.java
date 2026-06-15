@@ -1,11 +1,10 @@
 package com.jpaProject.projectJpa.entity;
 
-import com.jpaProject.projectJpa.baseClassEntity.BaseEntity;
+import com.jpaProject.projectJpa.baseEntity_AutditorAware.BaseEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +45,7 @@ public class Category extends BaseEntity {
     )
     private String description;
 
+    //-------Locking Optimistic lock
     @Version
     private Long version;
 

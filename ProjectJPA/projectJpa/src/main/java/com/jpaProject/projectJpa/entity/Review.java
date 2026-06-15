@@ -2,11 +2,10 @@ package com.jpaProject.projectJpa.entity;
 
 
 
-import com.jpaProject.projectJpa.baseClassEntity.BaseEntity;
+import com.jpaProject.projectJpa.baseEntity_AutditorAware.BaseEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
 @Table(name = "reviews")
@@ -46,6 +45,8 @@ public class Review extends BaseEntity {
     )
     private String comment;
 
+
+    //-------Locking Optimistic lock
     @Version
     private Long version;
 
